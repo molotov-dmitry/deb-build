@@ -28,15 +28,21 @@
 
 
 case "$1" in
-    remove)
-	update-alternatives \
-		--remove default.plymouth /usr/share/plymouth/themes/rczi/rczi.plymouth
+
+remove)
+	update-alternatives --remove default.plymouth /usr/share/plymouth/themes/rczi/rczi.plymouth
 
 	if which update-initramfs >/dev/null 2>&1
 	then
 	    update-initramfs -u
 	fi
-	;;
+	
+	if [ -e /boot/grub/grub.cfg ] && which update-grub2 >/dev/null 2>&1
+	then
+	    update-grub2
+	fi
+;;
+
 esac
 
 
