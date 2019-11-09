@@ -18,11 +18,15 @@ reset()
     unset section
     unset description
     unset depends
+    unset preinst
+    unset postinst
+    unset prerm
+    unset postrm
 }
 
 runbuild()
 {
-    bash build.sh "$name" "$srcname" "$path" "${pjtdir}" "$vcs" "$version" "$author" "$buildtype" "$section" "$description" "$depends"
+    bash build.sh "$name" "$srcname" "$path" "${pjtdir}" "$vcs" "$version" "$author" "$buildtype" "$section" "$description" "$depends" "$preinst" "$postinst" "$prerm" "$postrm"
 }
 
 getkey()
@@ -97,6 +101,10 @@ do
         'section') section="${val}" ;;
         'description') description="${val}" ;;
         'depends') depends="${val}" ;;
+        'preinst') preinst="${val}" ;;
+        'postinst') postinst="${val}" ;;
+        'prerm') prerm="${val}" ;;
+        'postrm') postrm="${val}" ;;
         *) 
             echo "Unknown config key: '${key}'" >&2
             false

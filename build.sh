@@ -36,6 +36,10 @@ buildtype="$8"
 section="$9"
 description="${10}"
 depends="${11}"
+preinst="${12}"
+postinst="${13}"
+prerm="${14}"
+postrm="${15}"
 
 if [[ -z "${pjtdir}" ]]
 then
@@ -123,7 +127,7 @@ case "${buildtype,,}" in
 
 esac
 
-cmd_binary+=('dh_gencontrol' 'dh_builddeb')
+cmd_binary+=('dh_gencontrol' 'dh_installdeb' 'dh_builddeb')
 
 #### Get sources ===============================================================
 
@@ -192,7 +196,7 @@ echo "${changelog}" > package/debian/changelog
 
 #### Generate compat -----------------------------------------------------------
 
-echo '9' > package/debian/compat
+echo '11' > package/debian/compat
 
 #### Generate rules ------------------------------------------------------------
 
@@ -223,6 +227,16 @@ binary:
 _EOF
 
 sed 's/^    /\t/g' -i package/debian/rules
+
+#### Copy install/remove scripts -----------------------------------------------
+
+for script in preinst postinst prerm postrm
+do
+    if [[ -n "${!script}" ]]
+    then
+        cp -f "${!script}" "package/debian/${name}.$script"
+    fi
+done
 
 #### Generate package ----------------------------------------------------------
 
