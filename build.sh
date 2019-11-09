@@ -137,7 +137,7 @@ then
     
 elif [[ "${vcs,,}" == 'git' ]] && git ls-remote "${path}" > /dev/null 2>/dev/null
 then
-    git clone --recurse-submodules --shallow-submodules -j$(nproc) "${path}" package
+    git clone --recurse-submodules -j$(nproc) "${path}" package
 fi
 
 #### Get package information ===================================================
