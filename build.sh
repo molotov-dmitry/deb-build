@@ -183,7 +183,7 @@ Source: ${srcname}
 Maintainer: ${author}
 
 Package: ${name}
-Architecture: any
+Architecture: ${arch}
 Depends: $(join_by ', ' "\${shlibs:Depends}" "\${misc:Depends}" "${depends}")
 Section: ${section}
 Priority: optional
