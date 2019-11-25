@@ -31,22 +31,21 @@ path="$3"
 pjtdir="$4"
 vcs="$5"
 version="$6"
-author="$7"
-buildtype="$8"
-section="$9"
-description="${10}"
-depends="${11}"
-preinst="${12}"
-postinst="${13}"
-prerm="${14}"
-postrm="${15}"
+builderversion="$7"
+author="$8"
+buildtype="$9"
+section="${10}"
+description="${11}"
+depends="${12}"
+preinst="${13}"
+postinst="${14}"
+prerm="${15}"
+postrm="${16}"
 
 if [[ -z "${pjtdir}" ]]
 then
     pjtdir='.'
 fi
-
-builderversion="$(git log --pretty=format:'%h' | wc -w)"
 
 #### Create working dir ========================================================
 

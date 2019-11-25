@@ -22,11 +22,13 @@ reset()
     unset postinst
     unset prerm
     unset postrm
+    
+    builderversion="$(git log --pretty=format:'%h' | wc -w)"
 }
 
 runbuild()
 {
-    bash build.sh "$name" "$srcname" "$path" "${pjtdir}" "$vcs" "$version" "$author" "$buildtype" "$section" "$description" "$depends" "$preinst" "$postinst" "$prerm" "$postrm"
+    bash build.sh "$name" "$srcname" "$path" "${pjtdir}" "$vcs" "$version" "$builderversion" "$author" "$buildtype" "$section" "$description" "$depends" "$preinst" "$postinst" "$prerm" "$postrm"
 }
 
 getkey()
@@ -96,6 +98,7 @@ do
         'source') srcname="${val}" ;;
         'vcs') vcs="${val}" ;;
         'version') version="${val}" ;;
+        'builderversion') builderversion="${val}" ;;
         'author') author="${val}" ;;
         'build') buildtype="${val}" ;;
         'section') section="${val}" ;;
