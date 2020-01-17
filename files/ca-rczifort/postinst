@@ -1,0 +1,17 @@
+#!/bin/sh -e
+
+case "$1" in
+
+configure)
+   
+	if which update-ca-certificates >/dev/null 2>&1
+	then
+	    update-ca-certificates
+	fi
+	
+;;
+
+esac
+
+
+exit 0
