@@ -12,6 +12,7 @@ reset()
     unset pjtdir
     unset srcname
     unset vcs
+    unset baseversion
     unset version
     unset author
     unset buildtype
@@ -28,7 +29,7 @@ reset()
 
 runbuild()
 {
-    bash build.sh "$name" "$srcname" "$path" "${pjtdir}" "$vcs" "$version" "$builderversion" "$author" "$buildtype" "$section" "$description" "$depends" "$preinst" "$postinst" "$prerm" "$postrm"
+    bash build.sh "$name" "$srcname" "$path" "${pjtdir}" "$vcs" "$baseversion" "$version" "$builderversion" "$author" "$buildtype" "$section" "$description" "$depends" "$preinst" "$postinst" "$prerm" "$postrm"
 }
 
 getkey()
@@ -97,6 +98,7 @@ do
         'dir') pjtdir="${val}" ;;
         'source') srcname="${val}" ;;
         'vcs') vcs="${val}" ;;
+        'baseversion') baseversion="${val}" ;;
         'version') version="${val}" ;;
         'builderversion') builderversion="${val}" ;;
         'author') author="${val}" ;;

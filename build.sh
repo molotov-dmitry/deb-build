@@ -26,21 +26,56 @@ join_by()
 #### Arguments =================================================================
 
 name="$1"
-srcname="$2"
-path="$3"
-pjtdir="$4"
-vcs="$5"
-version="$6"
-builderversion="$7"
-author="$8"
-buildtype="$9"
-section="${10}"
-description="${11}"
-depends="${12}"
-preinst="${13}"
-postinst="${14}"
-prerm="${15}"
-postrm="${16}"
+shift
+
+srcname="$1"
+shift
+
+path="$1"
+shift
+
+pjtdir="$1"
+shift
+
+vcs="$1"
+shift
+
+baseversion="$1"
+shift
+
+version="$1"
+shift
+
+builderversion="$1"
+shift
+
+author="$1"
+shift
+
+buildtype="$1"
+shift
+
+section="$1"
+shift
+
+description="$1"
+shift
+
+depends="$1"
+shift
+
+preinst="$1"
+shift
+
+postinst="$1"
+shift
+
+prerm="$1"
+shift
+
+postrm="$1"
+shift
+
 
 if [[ -z "${pjtdir}" ]]
 then
@@ -156,7 +191,7 @@ case "${vcs,,}" in
 
 esac
 
-fullversion="$(join_by '-' ${version} ${builderversion})"
+fullversion="$(join_by '-' ${baseversion} ${version} ${builderversion})"
 
 #### Generate Changelog from VCS -----------------------------------------------
 
@@ -204,8 +239,8 @@ echo                      >> package/debian/rules
 
 if [[ -n "${prefix_name}" ]]
 then
-    echo "SETPREFIX=\"${prefix_name}=\\\"$(realpath --relative-to="${pjtdir}" "debian")/${name}\\\"\"" >> package/debian/rules
-    echo                                                                                               >> package/debian/rules
+    echo "SETPREFIX=\"${prefix_name}=\\\"$(realpath --relative-to="package/${pjtdir}" "package/debian")/${name}\\\"\"" >> package/debian/rules
+    echo                                                                                                               >> package/debian/rules
 fi
 
 echo 'NPROC := $(if $(shell nproc),$(shell nproc),1)' >> package/debian/rules
