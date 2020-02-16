@@ -94,7 +94,7 @@ mkdir -p package
 unset arch
 
 case "${buildtype,,}" in
-'install')
+'install'|'copy')
     arch='all'
     ;;
     
@@ -119,6 +119,13 @@ cmd_clean=('@# Do nothing')
 cmd_build=('@# Do nothing')
 
 case "${buildtype,,}" in
+
+'copy')
+
+    cmd_binary=("rsync -a --exclude 'debian' --cvs-exclude \"${pjtdir}/\" \"$(realpath --relative-to="package/${pjtdir}" "package/debian")/${name}/\"")
+
+;;
+
 'install')
     
     prefix_name='PREFIX'
