@@ -4,7 +4,7 @@ case "$1" in
 
 configure)
     
-	update-alternatives --install /usr/share/plymouth/themes/default.plymouth default.plymouth /usr/share/plymouth/themes/rczi/rczi.plymouth 175 \
+	update-alternatives --install /usr/share/plymouth/themes/default.plymouth default.plymouth /usr/share/plymouth/themes/rczi/rczi.plymouth 105 \
 	                    --slave   /usr/share/plymouth/themes/default.grub default.plymouth.grub /usr/share/plymouth/themes/rczi/rczi.grub
 
 	if which update-initramfs >/dev/null 2>&1
