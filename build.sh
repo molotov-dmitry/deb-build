@@ -55,6 +55,9 @@ shift
 buildtype="$1"
 shift
 
+copyroot="$1"
+shift
+
 section="$1"
 shift
 
@@ -172,18 +175,20 @@ cmd_binary+=('dh_gencontrol' 'dh_installdeb' 'dh_builddeb')
 
 #### Get sources ===============================================================
 
+mkdir -p "package/${copyroot}"
+
 if [[ -d "${path}" ]]
 then
-    cp -rf "${path}/." package/
+    cp -rf "${path}/." "package/${copyroot}/"
     
 elif [[ "${vcs,,}" == 'git' ]] && git ls-remote "${path}" > /dev/null 2>/dev/null
 then
-    git clone --recurse-submodules -j$(nproc) "${path}" package
+    git clone --recurse-submodules -j$(nproc) "${path}" "package/${copyroot}"
 fi
 
 #### Get package information ===================================================
 
-pushd package
+pushd "package/${copyroot}"
 
 #### Get version and author from VCS -------------------------------------------
 
@@ -283,7 +288,7 @@ done
 
 pushd package
 
-dpkg-buildpackage -b
+dpkg-buildpackage -b -us -uc
 
 popd
 
