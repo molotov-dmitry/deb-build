@@ -17,6 +17,7 @@ reset()
     unset author
     unset buildtype
     unset copyroot
+    unset extrafiles
     unset section
     unset description
     unset depends
@@ -30,7 +31,7 @@ reset()
 
 runbuild()
 {
-    bash build.sh "$name" "$srcname" "$path" "${pjtdir}" "$vcs" "$baseversion" "$version" "$builderversion" "$author" "$buildtype" "$copyroot" "$section" "$description" "$depends" "$preinst" "$postinst" "$prerm" "$postrm"
+    bash build.sh "$name" "$srcname" "$path" "${pjtdir}" "$vcs" "$baseversion" "$version" "$builderversion" "$author" "$buildtype" "$copyroot" "$extrafiles" "$section" "$description" "$depends" "$preinst" "$postinst" "$prerm" "$postrm"
 }
 
 getkey()
@@ -105,6 +106,7 @@ do
         'author') author="${val}" ;;
         'build') buildtype="${val}" ;;
         'copyroot') copyroot="${val}" ;;
+        'extrafiles') extrafiles="${val}" ;;
         'section') section="${val}" ;;
         'description') description="${val}" ;;
         'depends') depends="${val}" ;;

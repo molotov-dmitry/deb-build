@@ -58,6 +58,9 @@ shift
 copyroot="$1"
 shift
 
+extrafiles="$1"
+shift
+
 section="$1"
 shift
 
@@ -184,6 +187,13 @@ then
 elif [[ "${vcs,,}" == 'git' ]] && git ls-remote "${path}" > /dev/null 2>/dev/null
 then
     git clone --recurse-submodules -j$(nproc) "${path}" "package/${copyroot}"
+fi
+
+#### Get extra files -----------------------------------------------------------
+
+if [[ -n "$extrafiles" && -d "$extrafiles" ]]
+then
+    cp -rf "$extrafiles/." 'package/'
 fi
 
 #### Get package information ===================================================
