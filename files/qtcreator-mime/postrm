@@ -1,0 +1,13 @@
+#!/bin/sh -e
+
+if [ remove = "$1" -o abort-install = "$1" -o disappear = "$1" ]
+then
+    if [ "$(dpkg-divert --listpackage /usr/share/mime/packages/Nokia-QtCreator.xml)" = "qtcreator-mime" ]
+    then
+        dpkg-divert --remove --rename --divert \
+            /usr/share/mime/packages/Nokia-QtCreator.xml.bak \
+            /usr/share/mime/packages/Nokia-QtCreator.xml
+    fi
+fi
+
+exit 0
