@@ -218,7 +218,17 @@ case "${vcs,,}" in
 
 esac
 
-fullversion="$(join_by '-' ${baseversion} ${version} ${builderversion})"
+
+case "${buildtype,,}" in
+'dkms')
+    versionseparator='.'
+    ;;
+*)
+    versionseparator='-'
+    ;;
+esac
+
+fullversion="$(join_by "$versionseparator" ${baseversion} ${version} ${builderversion})"
 
 #### Generate Changelog from VCS -----------------------------------------------
 
