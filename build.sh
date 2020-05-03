@@ -251,7 +251,7 @@ then
     sudo dkms remove -m "${name}" -v "${fullversion}" --all || true
     sudo dkms add -m "${name}" -v "${fullversion}"
     #sudo dkms build -m "${name}" -v "${fullversion}"
-    sudo dkms mkdeb -m "${name}" -v "${fullversion}"
+    sudo dkms mkdeb --source-only -m "${name}" -v "${fullversion}"
     cp "/var/lib/dkms/${name}/${fullversion}/deb/${name}-dkms_${fullversion}_${arch}.deb" ./
     sudo dkms remove -m "${name}" -v "${fullversion}" --all
     exit 0
