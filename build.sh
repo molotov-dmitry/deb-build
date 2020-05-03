@@ -104,7 +104,7 @@ case "${buildtype,,}" in
     arch='all'
     ;;
     
-'make'|'cpp'|'c++'|'qt4'|'qt5')
+'make'|'cpp'|'c++'|'qt4'|'qt5'|'dkms')
     arch="$(dpkg --print-architecture)"
     ;;
 esac
@@ -156,6 +156,7 @@ case "${buildtype,,}" in
     cmd_binary=("make -C \"${pjtdir}\" \$(SETPREFIX) install" 'dh_makeshlibs' 'dh_shlibdeps')
 
 ;;
+
 'qt5')
 
     prefix_name='INSTALL_ROOT'
@@ -163,6 +164,10 @@ case "${buildtype,,}" in
     cmd_build=("qmake -qt=qt5 -o \"${pjtdir}/Makefile\" \"${pjtdir}\"" "make -C \"${pjtdir}\" -j\$(NPROC)")
     cmd_binary=("make -C \"${pjtdir}\" \$(SETPREFIX) install" 'dh_makeshlibs' 'dh_shlibdeps')
     
+;;
+
+'dkms')
+
 ;;
 
 *)
@@ -227,6 +232,20 @@ changelog="${srcname} (${fullversion}) unstable; urgency=low
 #### ---------------------------------------------------------------------------
 
 popd
+
+#### Build DKMS package ========================================================
+
+if [[ "${buildtype,,}" == 'dkms' ]]
+then
+    sudo rsync -a --delete --delete-excluded --exclude '/.git' --exclude '/.svn' package/ "/usr/src/${name}-${fullversion}/"
+    sudo dkms remove -m "${name}" -v "${fullversion}" --all || true
+    sudo dkms add -m "${name}" -v "${fullversion}"
+    sudo dkms build -m "${name}" -v "${fullversion}"
+    sudo dkms mkdeb -m "${name}" -v "${fullversion}"
+    cp "/var/lib/dkms/${name}/${fullversion}/deb/${name}-dkms_${fullversion}_${arch}.deb" ./
+    sudo dkms remove -m "${name}" -v "${fullversion}" --all
+    exit 0
+fi
 
 #### Build package =============================================================
 
