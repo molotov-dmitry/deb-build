@@ -61,6 +61,9 @@ shift
 extrafiles="$1"
 shift
 
+removelist="$1"
+shift
+
 section="$1"
 shift
 
@@ -199,6 +202,16 @@ fi
 if [[ -n "$extrafiles" && -d "$extrafiles" ]]
 then
     cp -rf "$extrafiles/." 'package/'
+fi
+
+#### Remove files --------------------------------------------------------------
+
+if [[ -n "$removelist" && -s "$removelist" ]]
+then
+    while read -r filename
+    do
+        rm -rf "package/${copyroot}/$filename"
+    done <"$removelist"
 fi
 
 #### Get package information ===================================================
