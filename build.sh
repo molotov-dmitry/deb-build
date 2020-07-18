@@ -265,7 +265,13 @@ then
     sudo dkms add -m "${name}" -v "${fullversion}"
     #sudo dkms build -m "${name}" -v "${fullversion}"
     sudo dkms mkdeb --source-only -m "${name}" -v "${fullversion}"
-    cp "/var/lib/dkms/${name}/${fullversion}/deb/${name}-dkms_${fullversion}_${arch}.deb" ./
+    if [[ -f "/var/lib/dkms/${name}/${fullversion}/deb/${name}-dkms_${fullversion}_all.deb" ]]
+    then
+        cp "/var/lib/dkms/${name}/${fullversion}/deb/${name}-dkms_${fullversion}_all.deb" ./
+    else
+        cp "/var/lib/dkms/${name}/${fullversion}/deb/${name}-dkms_${fullversion}_${arch}.deb" ./
+    fi
+    
     sudo dkms remove -m "${name}" -v "${fullversion}" --all
     exit 0
 fi
