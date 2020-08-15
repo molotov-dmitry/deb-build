@@ -195,6 +195,10 @@ then
 elif [[ "${vcs,,}" == 'git' ]] && git ls-remote "${path}" > /dev/null 2>/dev/null
 then
     git clone --recurse-submodules -j$(nproc) "${path}" "package/${copyroot}"
+    
+elif [[ "${vcs,,}" == 'http.tar.gz' ]]
+then
+    curl "${path}" | tar xz -C "package/${copyroot}"
 fi
 
 #### Get extra files -----------------------------------------------------------
