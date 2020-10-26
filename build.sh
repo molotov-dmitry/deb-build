@@ -103,7 +103,7 @@ mkdir -p package
 unset arch
 
 case "${buildtype,,}" in
-'install'|'copy')
+'install'|'copy'|'copyall')
     arch='all'
     ;;
     
@@ -132,6 +132,12 @@ case "${buildtype,,}" in
 'copy')
 
     cmd_binary=("rsync -a --exclude 'debian' --cvs-exclude \"${pjtdir}/\" \"$(realpath --relative-to="package/${pjtdir}" "package/debian")/${name}/\"")
+
+;;
+
+'copyall')
+
+    cmd_binary=("rsync -av --exclude 'debian' --exclude '/.git' --exclude '/.svn' \"${pjtdir}/\" \"$(realpath --relative-to="package/${pjtdir}" "package/debian")/${name}/\"")
 
 ;;
 
