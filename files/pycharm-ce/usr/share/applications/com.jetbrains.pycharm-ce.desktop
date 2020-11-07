@@ -6,7 +6,6 @@ GenericName=The Python IDE for Professional Developers
 GenericName[ru]=IDE для профессиональной разработки на Python
 X-KDE-StartupNotify=true
 Icon=/opt/pycharm-community-2020.2/bin/pycharm.svg
-StartupWMClass=qtcreator
 Terminal=false
 Categories=Development;IDE;Python;
 MimeType=text/x-python;
