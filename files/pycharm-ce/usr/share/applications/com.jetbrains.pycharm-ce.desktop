@@ -1,11 +1,11 @@
 [Desktop Entry]
 Type=Application
-Exec=/opt/pycharm-community-2020.2/bin/pycharm.sh %F
+Exec=/opt/pycharm-community-2021.1.1/bin/pycharm.sh %F
 Name=PyCharm
 GenericName=The Python IDE for Professional Developers
 GenericName[ru]=IDE для профессиональной разработки на Python
 X-KDE-StartupNotify=true
-Icon=/opt/pycharm-community-2020.2/bin/pycharm.svg
+Icon=/opt/pycharm-community-2021.1.1/bin/pycharm.svg
 Terminal=false
 Categories=Development;IDE;Python;
 MimeType=text/x-python;
