@@ -91,6 +91,11 @@ then
     pjtdir='.'
 fi
 
+if [[ "${buildtype,,}" == 'dkms' && name=*"-dkms" ]]
+then
+    name="${name%-*}"
+fi
+
 #### Create working dir ========================================================
 
 rm -rf package
