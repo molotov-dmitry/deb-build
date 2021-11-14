@@ -1,0 +1,14 @@
+#!/bin/sh -e
+
+case "$1" in
+
+configure)
+    
+	update-alternatives --install /etc/vtrgb vtrgb /etc/vtrgb-gnome 150
+	
+;;
+
+esac
+
+
+exit 0
