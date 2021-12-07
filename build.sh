@@ -85,6 +85,8 @@ shift
 postrm="$1"
 shift
 
+arch="$1"
+shift
 
 if [[ -z "${pjtdir}" ]]
 then
@@ -105,17 +107,18 @@ mkdir -p package
 
 #### Get architecture ----------------------------------------------------------
 
-unset arch
-
-case "${buildtype,,}" in
-'install'|'copy'|'copyall')
-    arch='all'
-    ;;
-    
-'make'|'cpp'|'c++'|'qt4'|'qt5'|'dkms')
-    arch="$(dpkg --print-architecture)"
-    ;;
-esac
+if [[ -z "$arch" ]]
+then
+    case "${buildtype,,}" in
+    'install'|'copy'|'copyall')
+        arch='all'
+        ;;
+        
+    'make'|'cpp'|'c++'|'qt4'|'qt5'|'dkms')
+        arch="$(dpkg --print-architecture)"
+        ;;
+    esac
+fi
 
 #### Get build options ---------------------------------------------------------
 
@@ -361,7 +364,12 @@ done
 
 pushd package
 
-dpkg-buildpackage -b -us -uc
+if [[ "${arch}" == 'all' || "${arch}" == "$(dpkg --print-architecture)" ]]
+then
+    dpkg-buildpackage -b -us -uc
+else
+    dpkg-buildpackage -a${arch} -b -us -uc
+fi
 
 popd
 

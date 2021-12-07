@@ -26,13 +26,14 @@ reset()
     unset postinst
     unset prerm
     unset postrm
+    unset arch
     
     builderversion="$(git log --pretty=format:'%h' | wc -w)"
 }
 
 runbuild()
 {
-    bash build.sh "$name" "$srcname" "$path" "${pjtdir}" "$vcs" "$baseversion" "$version" "$builderversion" "$author" "$buildtype" "$copyroot" "$extrafiles" "$removelist" "$section" "$description" "$depends" "$preinst" "$postinst" "$prerm" "$postrm"
+    bash build.sh "$name" "$srcname" "$path" "${pjtdir}" "$vcs" "$baseversion" "$version" "$builderversion" "$author" "$buildtype" "$copyroot" "$extrafiles" "$removelist" "$section" "$description" "$depends" "$preinst" "$postinst" "$prerm" "$postrm" "$arch"
 }
 
 getkey()
@@ -116,6 +117,7 @@ do
         'postinst') postinst="${val}" ;;
         'prerm') prerm="${val}" ;;
         'postrm') postrm="${val}" ;;
+        'arch') arch="${val}" ;;
         *) 
             echo "Unknown config key: '${key}'" >&2
             false
