@@ -1,0 +1,8 @@
+#!/bin/sh -e
+
+if [ upgrade != "$1" ]
+then
+    rm -f /usr/local/bin/yt-dlp
+fi
+
+exit 0
