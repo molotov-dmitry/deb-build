@@ -210,7 +210,7 @@ elif [[ "${vcs,,}" == 'git' ]] && git ls-remote "${path%%@*}" > /dev/null 2>/dev
 then
     git clone --recurse-submodules -j$(nproc) "${path%%@*}" "package/${copyroot}"
     
-    if [[ -n "${path#*@}" ]]
+    if [[ "${path}" == *@* ]]
     then
         pushd "package/${copyroot}" > /dev/null 2>/dev/null
         git checkout "${path#*@}"
