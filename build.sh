@@ -206,9 +206,16 @@ if [[ -d "${path}" ]]
 then
     cp -rf "${path}/." "package/${copyroot}/"
     
-elif [[ "${vcs,,}" == 'git' ]] && git ls-remote "${path}" > /dev/null 2>/dev/null
+elif [[ "${vcs,,}" == 'git' ]] && git ls-remote "${path%%@*}" > /dev/null 2>/dev/null
 then
-    git clone --recurse-submodules -j$(nproc) "${path}" "package/${copyroot}"
+    git clone --recurse-submodules -j$(nproc) "${path%%@*}" "package/${copyroot}"
+    
+    if [[ -n "${path#*@}" ]]
+    then
+        pushd "package/${copyroot}" > /dev/null 2>/dev/null
+        git checkout "${path#*@}"
+        popd > /dev/null 2>/dev/null
+    fi
     
 elif [[ "${vcs,,}" == 'http.tar.gz' ]]
 then
