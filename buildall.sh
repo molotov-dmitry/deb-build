@@ -22,6 +22,8 @@ reset()
     unset section
     unset description
     unset depends
+    unset conflicts
+    unset replaces
     unset preinst
     unset postinst
     unset prerm
@@ -33,7 +35,29 @@ reset()
 
 runbuild()
 {
-    bash build.sh "$name" "$srcname" "$path" "${pjtdir}" "$vcs" "$baseversion" "$version" "$builderversion" "$author" "$buildtype" "$copyroot" "$extrafiles" "$removelist" "$section" "$description" "$depends" "$preinst" "$postinst" "$prerm" "$postrm" "$arch"
+    bash build.sh "$name" \
+                  "$srcname" \
+                  "$path" \
+                  "$pjtdir" \
+                  "$vcs" \
+                  "$baseversion" \
+                  "$version" \
+                  "$builderversion" \
+                  "$author" \
+                  "$buildtype" \
+                  "$copyroot" \
+                  "$extrafiles" \
+                  "$removelist" \
+                  "$section" \
+                  "$description" \
+                  "$depends" \
+                  "$conflicts" \
+                  "$replaces" \
+                  "$preinst" \
+                  "$postinst" \
+                  "$prerm" \
+                  "$postrm" \
+                  "$arch"
 }
 
 getkey()
@@ -113,6 +137,8 @@ do
         'section') section="${val}" ;;
         'description') description="${val}" ;;
         'depends') depends="${val}" ;;
+        'conflicts') conflicts="${val}" ;;
+        'replaces') replaces="${val}" ;;
         'preinst') preinst="${val}" ;;
         'postinst') postinst="${val}" ;;
         'prerm') prerm="${val}" ;;

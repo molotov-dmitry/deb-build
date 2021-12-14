@@ -73,6 +73,12 @@ shift
 depends="$1"
 shift
 
+conflicts="$1"
+shift
+
+replaces="$1"
+shift
+
 preinst="$1"
 shift
 
@@ -314,6 +320,8 @@ Maintainer: ${author}
 Package: ${name}
 Architecture: ${arch}
 Depends: $(join_by ', ' "\${shlibs:Depends}" "\${misc:Depends}" "${depends}")
+Conflicts: ${conflicts}
+Replaces: ${replaces}
 Section: ${section}
 Priority: optional
 Description: ${description}
