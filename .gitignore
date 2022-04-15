@@ -1,3 +1,5 @@
 /*.deb
 /package
 /keyfile
+/btop/i486
+/btop/x86_64
