@@ -1,0 +1,16 @@
+#!/bin/sh -e
+
+case "$1" in
+
+remove)
+
+	if [ -e /boot/grub/grub.cfg ] && which update-grub >/dev/null 2>&1
+	then
+	    update-grub
+	fi
+;;
+
+esac
+
+
+exit 0
