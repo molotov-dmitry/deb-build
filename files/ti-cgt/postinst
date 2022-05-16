@@ -1,0 +1,17 @@
+#!/bin/sh -e
+
+case "$1" in
+
+configure)
+    
+    if [ -n "$2" ] && [ "$2" != "6.0.31" ]
+    then
+        rm -f "/etc/profile.d/C6000CGT${2}.sh"
+    fi
+	
+;;
+
+esac
+
+
+exit 0
