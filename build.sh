@@ -23,6 +23,22 @@ join_by()
     done
 }
 
+array_contains()
+{
+    local seeking="$1"
+    shift
+    
+    for element
+    do
+        if [[ "$element" == "$seeking" ]]
+        then
+            return 0
+        fi
+    done
+    
+    return 1
+}
+
 #### Arguments =================================================================
 
 name="$1"
@@ -92,6 +108,9 @@ postrm="$1"
 shift
 
 arch="$1"
+shift
+
+extraoptions=( $1 )
 shift
 
 if [[ -z "${pjtdir}" ]]
@@ -202,7 +221,14 @@ case "${buildtype,,}" in
 
 esac
 
-cmd_binary+=('dh_gencontrol' 'dh_installdeb' 'dh_builddeb')
+cmd_binary+=('dh_gencontrol' 'dh_installdeb' )
+
+if array_contains 'noconffiles' "${extraoptions[@]}"
+then
+    cmd_binary+=("rm -f debian/${name}/DEBIAN/conffiles")
+fi
+
+cmd_binary+=('dh_builddeb')
 
 #### Get sources ===============================================================
 

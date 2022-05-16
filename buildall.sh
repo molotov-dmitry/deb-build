@@ -29,6 +29,7 @@ reset()
     unset prerm
     unset postrm
     unset arch
+    unset extraoptions
     
     builderversion="$(git log --pretty=format:'%h' | wc -w)"
 }
@@ -57,7 +58,8 @@ runbuild()
                   "$postinst" \
                   "$prerm" \
                   "$postrm" \
-                  "$arch"
+                  "$arch" \
+                  "$extraoptions"
 }
 
 getkey()
@@ -144,6 +146,7 @@ do
         'prerm') prerm="${val}" ;;
         'postrm') postrm="${val}" ;;
         'arch') arch="${val}" ;;
+        'extra') extraoptions="${val}" ;;
         *) 
             echo "Unknown config key: '${key}'" >&2
             false
