@@ -3,12 +3,12 @@
 case "$1" in
 
 configure)
-	
-	if [ " $(LC_ALL=C lpstat -r)" = ' scheduler is running' ]
-	then
-	    /usr/local/bin/printer-update
-	fi
-	
+
+    if [ -d /run/systemd/system ] && [ "$(systemctl is-active cups.service)" = 'active' ]
+    then
+        /usr/local/bin/printer-update
+    fi
+
 ;;
 
 esac
