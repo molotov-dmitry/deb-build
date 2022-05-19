@@ -1,0 +1,14 @@
+#!/bin/sh -e
+
+case "$1" in
+
+configure)
+    
+	update-alternatives --set x-cursor-theme "/etc/X11/cursors/breeze_cursors.theme"
+
+;;
+
+esac
+
+
+exit 0

@@ -1,0 +1,16 @@
+#!/bin/sh -e
+
+case "$1" in
+
+remove)
+
+    if [[ "$(LC_ALL=C update-alternatives --query x-cursor-theme | grep "^Status:\|^Value:" | cut -d ' ' -f 2- | tr '\n' ' ')" == 'manual /etc/X11/cursors/breeze_cursors.theme ' ]]
+    then
+	    sudo update-alternatives --auto x-cursor-theme
+	fi
+;;
+
+esac
+
+
+exit 0
