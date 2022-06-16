@@ -251,7 +251,12 @@ then
     
 elif [[ "${vcs,,}" == 'http.tar.gz' ]]
 then
-    curl "${path}" | tar xz -C "package/${copyroot}"
+    if array_contains 'intellij' "${extraoptions[@]}"
+    then
+        curl "${path}" | tar xz --strip-components=1 -C "package/${copyroot}"
+    else
+        curl "${path}" | tar xz -C "package/${copyroot}"
+    fi
 fi
 
 #### Get extra files -----------------------------------------------------------

@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=Application
+Exec=/opt/intellij-idea-ce/bin/idea.sh %F
+Name=IntelliJ IDEA
+GenericName=The Capable and Ergonomic Java IDE by JetBrains
+GenericName[ru]=Функциональная и эргономичная IDE для разработки на Java от JetBrains
+X-KDE-StartupNotify=true
+Icon=/opt/intellij-idea-ce/bin/idea.svg
+Terminal=false
+Categories=Development;IDE;Java;
+MimeType=text/x-java;text/x-java-source;
+
