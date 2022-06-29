@@ -236,7 +236,7 @@ then
     cmd_binary+=("rm -f debian/${name}/DEBIAN/conffiles")
 fi
 
-cmd_binary+=('dh_builddeb')
+cmd_binary+=('dh_builddeb -- -Zxz')
 
 #### Get sources ===============================================================
 
