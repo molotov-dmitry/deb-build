@@ -139,7 +139,7 @@ then
         arch='all'
         ;;
         
-    'make'|'cpp'|'c++'|'qt4'|'qt5'|'dkms')
+    'make'|'cpp'|'c++'|'qt4'|'qt5'|'dkms'|'meson')
         arch="$(dpkg --print-architecture)"
         ;;
     esac
@@ -205,6 +205,14 @@ case "${buildtype,,}" in
     cmd_clean=("qmake -qt=qt5 -o \"${pjtdir}/Makefile\" \"${pjtdir}\"" "make -C \"${pjtdir}\" clean")
     cmd_build=("qmake -qt=qt5 -o \"${pjtdir}/Makefile\" \"${pjtdir}\"" "make -C \"${pjtdir}\" -j\$(NPROC)")
     cmd_binary=("make -C \"${pjtdir}\" \$(SETPREFIX) install" 'dh_makeshlibs' 'dh_shlibdeps')
+    
+;;
+
+'meson')
+
+    cmd_clean=("rm -rf \"${pjtdir}/builddir\"")
+    cmd_build=("cd \"${pjtdir}\" && meson setup builddir --buildtype release --strip" "meson compile -C \"${pjtdir}/builddir\" -j \$(NPROC)")
+    cmd_binary=("meson install -C \"${pjtdir}/builddir\" --destdir \"\$(MESONPREFIX)\" --no-rebuild" 'dh_makeshlibs' 'dh_shlibdeps')
     
 ;;
 
@@ -370,6 +378,11 @@ echo '11' > package/debian/compat
 
 echo '#!/usr/bin/make -f' >  package/debian/rules
 echo                      >> package/debian/rules
+
+if [[ "${buildtype,,}" == 'meson' ]]
+then
+    echo "MESONPREFIX := \"$(realpath --relative-to="package/${pjtdir}/builddir" "package/debian")/${name}\"" >> package/debian/rules
+fi
 
 if [[ -n "${prefix_name}" ]]
 then
