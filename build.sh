@@ -235,7 +235,7 @@ case "${buildtype,,}" in
 
     cmd_clean=("rm -rf \"${pjtdir}/builddir\"")
     cmd_build=("cd \"${pjtdir}\" && meson setup builddir --buildtype release --strip" "meson compile -C \"${pjtdir}/builddir\" -j \$(NPROC)")
-    cmd_binary=("meson install -C \"${pjtdir}/builddir\" --destdir \"\$(MESONPREFIX)\" --no-rebuild" 'dh_makeshlibs' 'dh_shlibdeps')
+    cmd_binary=("DESTDIR=\"\$(MESONPREFIX)\" meson install -C \"${pjtdir}/builddir\" --no-rebuild" 'dh_makeshlibs' 'dh_shlibdeps')
     
 ;;
 
@@ -404,7 +404,7 @@ echo                      >> package/debian/rules
 
 if [[ "${buildtype,,}" == 'meson' ]]
 then
-    echo "MESONPREFIX := \"$(realpath --relative-to="package/${pjtdir}/builddir" "package/debian")/${name}\"" >> package/debian/rules
+    echo "MESONPREFIX := \"$(realpath "package/debian")/${name}\"" >> package/debian/rules
 fi
 
 if [[ -n "${prefix_name}" ]]
