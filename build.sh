@@ -89,6 +89,9 @@ shift
 depends="$1"
 shift
 
+builddeps=( $1 )
+shift
+
 conflicts="$1"
 shift
 
@@ -122,6 +125,26 @@ if [[ "${buildtype,,}" == 'dkms' && name=*"-dkms" ]]
 then
     name="${name%-*}"
 fi
+
+#### Check build dependencies ==================================================
+
+if [[ "${buildtype,,}" == 'meson' ]]
+then
+    builddeps+=( 'meson' 'ninja-build' )
+fi
+
+depsok=1
+
+for dep in "${builddeps[@]}"
+do
+    if [[ "$(dpkg-query -W --showformat='${Status}\n' $dep 2> /dev/null)" != 'install ok installed' ]]
+    then
+        echo "Missing dependency: $dep" >&2
+        depsok=0
+    fi
+done
+
+test $depsok -eq 1
 
 #### Create working dir ========================================================
 

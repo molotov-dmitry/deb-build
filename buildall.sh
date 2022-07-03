@@ -22,6 +22,7 @@ reset()
     unset section
     unset description
     unset depends
+    unset builddeps
     unset conflicts
     unset replaces
     unset preinst
@@ -52,6 +53,7 @@ runbuild()
                   "$section" \
                   "$description" \
                   "$depends" \
+                  "$builddeps" \
                   "$conflicts" \
                   "$replaces" \
                   "$preinst" \
@@ -139,6 +141,7 @@ do
         'section') section="${val}" ;;
         'description') description="${val}" ;;
         'depends') depends="${val}" ;;
+        'builddeps') builddeps="${val}" ;;
         'conflicts') conflicts="${val}" ;;
         'replaces') replaces="${val}" ;;
         'preinst') preinst="${val}" ;;
