@@ -133,18 +133,21 @@ then
     builddeps+=( 'meson' 'ninja-build' )
 fi
 
-depsok=1
+missingpackages=()
 
 for dep in "${builddeps[@]}"
 do
     if [[ "$(dpkg-query -W --showformat='${Status}\n' $dep 2> /dev/null)" != 'install ok installed' ]]
     then
-        echo "Missing dependency: $dep" >&2
-        depsok=0
+        missingpackages+=( "$dep" )
     fi
 done
 
-test $depsok -eq 1
+if [[ ${#missingpackages[@]} -gt 0 ]]
+then
+    echo "Missing dependency: ${missingpackages[*]}" >&2
+    exit 1
+fi
 
 #### Create working dir ========================================================
 
