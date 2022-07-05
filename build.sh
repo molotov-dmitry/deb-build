@@ -151,8 +151,20 @@ fi
 
 #### Create working dir ========================================================
 
-rm -rf package
-mkdir -p package
+if [[ -d "/dev/shm/deb-build" ]]
+then
+    rm -rf "/dev/shm/deb-build"
+fi
+
+rm -rf "package"
+
+if [[ -d "/dev/shm" ]]
+then
+    mkdir -p "/dev/shm/deb-build/package"
+    ln -s "/dev/shm/deb-build/package" "package"
+else
+    mkdir -p "package"
+fi
 
 #### Prepare and build project =================================================
 
@@ -459,6 +471,12 @@ fi
 popd
 
 #### Remove temp directory -----------------------------------------------------
+
+if [[ -d "/dev/shm/deb-build" ]]
+then
+    cp -f "/dev/shm/deb-build/"*.deb ./
+    rm -rf "/dev/shm/deb-build"
+fi
 
 rm -rf package *.buildinfo *.changes
 
