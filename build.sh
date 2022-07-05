@@ -250,7 +250,7 @@ case "${buildtype,,}" in
 
     cmd_clean=("rm -rf \"${pjtdir}/builddir\"")
     cmd_build=("cd \"${pjtdir}\" && meson setup builddir --buildtype release --strip" "meson configure \"${pjtdir}/builddir\" -Dprefix=/usr" "meson compile -C \"${pjtdir}/builddir\" -j \$(NPROC)")
-    cmd_binary=("DESTDIR=\"\$(MESONPREFIX)\" meson install -C \"${pjtdir}/builddir\" --no-rebuild" 'dh_makeshlibs' 'dh_shlibdeps')
+    cmd_binary=("DESTDIR=\"\$(MESONPREFIX)\" meson install -C \"${pjtdir}/builddir\" --no-rebuild" 'dh_makeshlibs' 'dh_shlibdeps' 'dh_strip')
     
 ;;
 
