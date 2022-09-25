@@ -173,7 +173,7 @@ fi
 if [[ -z "$arch" ]]
 then
     case "${buildtype,,}" in
-    'install'|'copy'|'copyall')
+    'install'|'copy'|'copyall'|'none')
         arch='all'
         ;;
         
@@ -255,6 +255,10 @@ case "${buildtype,,}" in
 ;;
 
 'dkms')
+
+;;
+
+'none')
 
 ;;
 
