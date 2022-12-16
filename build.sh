@@ -284,7 +284,7 @@ cmd_binary+=('dh_builddeb -- -Zxz')
 
 mkdir -p "package/${copyroot}"
 
-if [[ -d "${path}" ]]
+if [[ -z "${vcs}" && -d "${path}" ]]
 then
     cp -rf "${path}/." "package/${copyroot}/"
     
