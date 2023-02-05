@@ -65,6 +65,9 @@ shift
 builderversion="$1"
 shift
 
+versionrefpoint="$1"
+shift
+
 author="$1"
 shift
 
@@ -334,8 +337,17 @@ pushd "package/${copyroot}"
 
 case "${vcs,,}" in
 'git')
-    [[ -z "${author}" ]]  && author="$(git log -1 --pretty=format:'%an <%ae>')"
-    [[ -z "${version}" ]] && version="$(git log --pretty=format:'%h' | wc -w)"
+    [[ -z "${author}" ]] && author="$(git --no-pager show -s --format='%an <%ae>')"
+    
+    if [[ -z "${version}" ]]
+    then
+        if [[ -z "${versionrefpoint}" ]]
+        then
+            version="$(git rev-list HEAD --count)"
+        else
+            version="$(git rev-list "${versionrefpoint}"..HEAD --count)"
+        fi
+    fi
 ;;
 'svn')
     [[ -z "${version}" ]] && version="$(svnversion .)"

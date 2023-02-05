@@ -14,6 +14,7 @@ reset()
     unset vcs
     unset baseversion
     unset version
+    unset versionrefpoint
     unset author
     unset buildtype
     unset copyroot
@@ -32,7 +33,7 @@ reset()
     unset arch
     unset extraoptions
     
-    builderversion="$(git log --pretty=format:'%h' | wc -w)"
+    builderversion="$(git rev-list HEAD --count)"
 }
 
 runbuild()
@@ -45,6 +46,7 @@ runbuild()
                   "$baseversion" \
                   "$version" \
                   "$builderversion" \
+                  "$versionrefpoint" \
                   "$author" \
                   "$buildtype" \
                   "$copyroot" \
@@ -133,6 +135,7 @@ do
         'baseversion') baseversion="${val}" ;;
         'version') version="${val}" ;;
         'builderversion') builderversion="${val}" ;;
+        'versionrefpoint') versionrefpoint="${val}" ;;
         'author') author="${val}" ;;
         'build') buildtype="${val}" ;;
         'copyroot') copyroot="${val}" ;;
