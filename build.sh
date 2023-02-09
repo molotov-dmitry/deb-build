@@ -180,7 +180,7 @@ then
         arch='all'
         ;;
         
-    'make'|'cpp'|'c++'|'qt4'|'qt5'|'dkms'|'meson')
+    'make'|'cpp'|'c++'|'qt4'|'qt5'|'qt6'|'dkms'|'meson')
         arch="$(dpkg --print-architecture)"
         ;;
     esac
@@ -245,6 +245,15 @@ case "${buildtype,,}" in
     prefix_name='INSTALL_ROOT'
     cmd_clean=("qmake -qt=qt5 -o \"${pjtdir}/Makefile\" \"${pjtdir}\"" "make -C \"${pjtdir}\" clean")
     cmd_build=("qmake -qt=qt5 -o \"${pjtdir}/Makefile\" \"${pjtdir}\"" "make -C \"${pjtdir}\" -j\$(NPROC)")
+    cmd_binary=("make -C \"${pjtdir}\" \$(SETPREFIX) install" 'dh_makeshlibs' 'dh_shlibdeps')
+    
+;;
+
+'qt6')
+
+    prefix_name='INSTALL_ROOT'
+    cmd_clean=("qmake6 -o \"${pjtdir}/Makefile\" \"${pjtdir}\"" "make -C \"${pjtdir}\" clean")
+    cmd_build=("qmake6 -o \"${pjtdir}/Makefile\" \"${pjtdir}\"" "make -C \"${pjtdir}\" -j\$(NPROC)")
     cmd_binary=("make -C \"${pjtdir}\" \$(SETPREFIX) install" 'dh_makeshlibs' 'dh_shlibdeps')
     
 ;;
