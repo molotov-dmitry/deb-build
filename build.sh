@@ -440,7 +440,7 @@ fi
 
 if [[ -n "${prefix_name}" ]]
 then
-    echo "SETPREFIX=\"${prefix_name}=\\\"$(realpath --relative-to="package/${pjtdir}" "package/debian")/${name}\\\"\"" >> package/debian/rules
+    echo "SETPREFIX=\"${prefix_name}=\\\"$(realpath "package/debian")/${name}\\\"\"" >> package/debian/rules
     echo                                                                                                               >> package/debian/rules
 fi
 
