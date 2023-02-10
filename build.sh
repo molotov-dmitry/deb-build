@@ -62,6 +62,9 @@ shift
 version="$1"
 shift
 
+useversion=( $1 )
+shift
+
 builderversion="$1"
 shift
 
@@ -375,6 +378,19 @@ case "${buildtype,,}" in
 esac
 
 fullversion="$(join_by "$versionseparator" ${baseversion} ${version} ${builderversion})"
+
+if [[ "${#useversion[@]}" -gt 0 ]]
+then
+    for pkg in "${useversion[@]}"
+    do
+        pkgversion="$(dpkg-query --showformat='${Version}' --show $pkg)"
+        if [[ -n "${pkgversion}" ]]
+        then
+            fullversion="${pkgversion}"
+            break
+        fi
+    done
+fi
 
 #### Generate Changelog from VCS -----------------------------------------------
 

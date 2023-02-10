@@ -14,6 +14,7 @@ reset()
     unset vcs
     unset baseversion
     unset version
+    unset useversion
     unset versionrefpoint
     unset author
     unset buildtype
@@ -45,6 +46,7 @@ runbuild()
                   "$vcs" \
                   "$baseversion" \
                   "$version" \
+                  "$useversion" \
                   "$builderversion" \
                   "$versionrefpoint" \
                   "$author" \
@@ -134,6 +136,7 @@ do
         'vcs') vcs="${val}" ;;
         'baseversion') baseversion="${val}" ;;
         'version') version="${val}" ;;
+        'useversion') useversion="${val}" ;;
         'builderversion') builderversion="${val}" ;;
         'versionrefpoint') versionrefpoint="${val}" ;;
         'author') author="${val}" ;;
