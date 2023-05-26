@@ -141,7 +141,7 @@ fi
 
 missingpackages=()
 
-for dep in "${builddeps[@]}"
+for dep in fakeroot debhelper "${builddeps[@]}"
 do
     if [[ "$(dpkg-query -W --showformat='${Status}\n' $dep 2> /dev/null)" != 'install ok installed' ]]
     then
