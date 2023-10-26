@@ -139,6 +139,11 @@ then
     builddeps+=( 'meson' 'ninja-build' )
 fi
 
+if [[ "${buildtype,,}" == 'python3' ]]
+then
+    builddeps+=( 'python3-setuptools' )
+fi
+
 missingpackages=()
 
 for dep in fakeroot debhelper "${builddeps[@]}"
@@ -179,7 +184,7 @@ fi
 if [[ -z "$arch" ]]
 then
     case "${buildtype,,}" in
-    'install'|'copy'|'copyall'|'none')
+    'install'|'copy'|'copyall'|'python3'|'none')
         arch='all'
         ;;
         
@@ -271,6 +276,12 @@ case "${buildtype,,}" in
 
 'dkms')
 
+;;
+
+'python3')
+
+    cmd_binary=( 'dh_python3' "cd \"${pjtdir}\" && python3 setup.py install --install-layout=deb --root=\"\$(PYTHONPREFIX)\"" )
+    
 ;;
 
 'none')
@@ -461,6 +472,11 @@ echo                      >> package/debian/rules
 if [[ "${buildtype,,}" == 'meson' ]]
 then
     echo "MESONPREFIX := \"$(realpath "package/debian")/${name}\"" >> package/debian/rules
+fi
+
+if [[ "${buildtype,,}" == 'python3' ]]
+then
+    echo "PYTHONPREFIX := \"$(realpath "package/debian")/${name}\"" >> package/debian/rules
 fi
 
 if [[ -n "${prefix_name}" ]]
