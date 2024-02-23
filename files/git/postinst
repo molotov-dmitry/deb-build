@@ -1,0 +1,23 @@
+#!/bin/sh -e
+
+case "$1" in
+
+configure)
+    
+    ## Make git save credentials by default ------------------------------------
+    
+	git config --system credential.helper store
+	
+    ## Set default pull startegy -----------------------------------------------
+
+    git config --system pull.ff only
+
+    ## Set default branch name -------------------------------------------------
+
+    git config --system init.defaultBranch master
+;;
+
+esac
+
+
+exit 0
