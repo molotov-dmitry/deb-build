@@ -52,6 +52,13 @@ remove)
 	    git config --system --unset init.defaultBranch
 	fi
 	
+    ## Add alias for rebase but keep committer information ---------------------
+	
+    if [ "$(git config --system --get alias.rebasekeep)" = "-c rebase.instructionFormat='%s%nexec GIT_COMMITTER_NAME=\"%cN\" GIT_COMMITTER_EMAIL=\"%ce\" GIT_COMMITTER_DATE=\"%cd\" git commit --amend --no-edit --date=\"%ad\"' rebase" ]
+    then
+	    git config --system --unset alias.rebasekeep
+	fi
+	
 ;;
 
 esac

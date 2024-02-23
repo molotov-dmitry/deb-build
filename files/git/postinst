@@ -15,6 +15,10 @@ configure)
     ## Set default branch name -------------------------------------------------
 
     git config --system init.defaultBranch master
+    
+    ## Add alias for rebase but keep committer information ---------------------
+    
+    git config --system alias.rebasekeep "-c rebase.instructionFormat='%s%nexec GIT_COMMITTER_NAME=\"%cN\" GIT_COMMITTER_EMAIL=\"%ce\" GIT_COMMITTER_DATE=\"%cd\" git commit --amend --no-edit --date=\"%ad\"' rebase"
 ;;
 
 esac
