@@ -4,7 +4,10 @@ case "$1" in
 
 configure)
     
-	update-alternatives --set x-cursor-theme "/etc/X11/cursors/breeze_cursors.theme"
+    if update-alternatives --list x-cursor-theme 2>/dev/null | grep -qs "^/etc/X11/cursors/breeze_cursors.theme$"
+    then
+	    update-alternatives --set x-cursor-theme "/etc/X11/cursors/breeze_cursors.theme"
+	fi
 
 ;;
 
