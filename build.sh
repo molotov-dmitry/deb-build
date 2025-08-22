@@ -322,6 +322,7 @@ then
     then
         pushd "package/${copyroot}" > /dev/null 2>/dev/null
         git checkout "${path#*@}"
+        git submodule update --init --recursive --jobs $(nproc)
         popd > /dev/null 2>/dev/null
     fi
     
