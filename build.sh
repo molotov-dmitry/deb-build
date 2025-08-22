@@ -68,6 +68,9 @@ shift
 builderversion="$1"
 shift
 
+versionsuffix="$1"
+shift
+
 versionrefpoint="$1"
 shift
 
@@ -389,7 +392,7 @@ case "${buildtype,,}" in
     ;;
 esac
 
-fullversion="$(join_by "$versionseparator" ${baseversion} ${version} ${builderversion})"
+fullversion="$(join_by "$versionseparator" ${baseversion} ${version} ${builderversion})${versionsuffix}"
 
 if [[ "${#useversion[@]}" -gt 0 ]]
 then
@@ -398,7 +401,7 @@ then
         pkgversion="$(dpkg-query --showformat='${Version}' --show $pkg)"
         if [[ -n "${pkgversion}" ]]
         then
-            fullversion="${pkgversion}"
+            fullversion="${pkgversion}${versionsuffix}"
             break
         fi
     done
