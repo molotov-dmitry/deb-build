@@ -1,0 +1,16 @@
+[Unit]
+Description=Set console scheme
+DefaultDependencies=no
+After=systemd-user-sessions.service plymouth-quit-wait.service
+Before=system-getty.slice
+ConditionPathExists=/usr/bin/setvtrgb
+ConditionPathExists=/etc/vtrgb
+ConditionPathExists=/dev/tty0
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/setvtrgb /etc/vtrgb
+RemainAfterExit=yes
+
+[Install]
+WantedBy=sysinit.target
