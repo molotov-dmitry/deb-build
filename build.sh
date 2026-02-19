@@ -23,6 +23,33 @@ join_by()
     done
 }
 
+is_version_delimiter()
+{
+    [[ "$1" == '.' || "$1" == '-' || "$1" == '~' || "$1" == '+' || "$1" == ':' ]]
+}
+
+join_version()
+{
+    local separator="$1"
+    shift
+    
+    local last_part=''
+    
+    while [[ $# -gt 0 ]]
+    do
+        if [[ -n "${last_part}" ]] && ! is_version_delimiter "${last_part: -1}" && ! is_version_delimiter "${1:0:1}"
+        then
+            echo -ne "$separator"
+        fi
+        
+        echo -ne "$1"
+        
+        last_part="$1"
+        
+        shift
+    done
+}
+
 array_contains()
 {
     local seeking="$1"
@@ -392,7 +419,7 @@ case "${buildtype,,}" in
     ;;
 esac
 
-fullversion="$(join_by "$versionseparator" ${baseversion} ${version} ${builderversion})${versionsuffix}"
+fullversion="$(join_version "$versionseparator" ${baseversion} ${version} ${builderversion})${versionsuffix}"
 
 if [[ "${#useversion[@]}" -gt 0 ]]
 then
