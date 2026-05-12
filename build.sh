@@ -274,7 +274,7 @@ case "${buildtype,,}" in
     prefix_name='PREFIX'
     cmd_clean=("make -C \"${pjtdir}\" clean")
     cmd_build=("make -C \"${pjtdir}\" -j\$(NPROC)")
-    cmd_binary=("make -C \"${pjtdir}\" \$(SETPREFIX) install" 'dh_makeshlibs' 'dh_shlibdeps')
+    cmd_binary=("make -C \"${pjtdir}\" \$(SETPREFIX) install")
 
 ;;
 
@@ -283,7 +283,7 @@ case "${buildtype,,}" in
     prefix_name='INSTALL_ROOT'
     cmd_clean=("qmake -qt=qt5 -o \"${pjtdir}/Makefile\" \"${pjtdir}\"" "make -C \"${pjtdir}\" clean")
     cmd_build=("qmake -qt=qt5 -o \"${pjtdir}/Makefile\" \"${pjtdir}\"" "make -C \"${pjtdir}\" -j\$(NPROC)")
-    cmd_binary=("make -C \"${pjtdir}\" \$(SETPREFIX) install" 'dh_makeshlibs' 'dh_shlibdeps')
+    cmd_binary=("make -C \"${pjtdir}\" \$(SETPREFIX) install")
     
 ;;
 
@@ -292,7 +292,7 @@ case "${buildtype,,}" in
     prefix_name='INSTALL_ROOT'
     cmd_clean=("qmake6 -o \"${pjtdir}/Makefile\" \"${pjtdir}\"" "make -C \"${pjtdir}\" clean")
     cmd_build=("qmake6 -o \"${pjtdir}/Makefile\" \"${pjtdir}\"" "make -C \"${pjtdir}\" -j\$(NPROC)")
-    cmd_binary=("make -C \"${pjtdir}\" \$(SETPREFIX) install" 'dh_makeshlibs' 'dh_shlibdeps')
+    cmd_binary=("make -C \"${pjtdir}\" \$(SETPREFIX) install")
     
 ;;
 
@@ -300,7 +300,7 @@ case "${buildtype,,}" in
 
     cmd_clean=("rm -rf \"${pjtdir}/builddir\"")
     cmd_build=("cd \"${pjtdir}\" && meson setup builddir --buildtype release --strip" "meson configure \"${pjtdir}/builddir\" -Dprefix=/usr" "meson compile -C \"${pjtdir}/builddir\" -j \$(NPROC)")
-    cmd_binary=("DESTDIR=\"\$(MESONPREFIX)\" meson install -C \"${pjtdir}/builddir\" --no-rebuild" 'dh_makeshlibs' 'dh_shlibdeps' 'dh_strip')
+    cmd_binary=("DESTDIR=\"\$(MESONPREFIX)\" meson install -C \"${pjtdir}/builddir\" --no-rebuild" 'dh_strip')
     
 ;;
 
@@ -326,6 +326,11 @@ case "${buildtype,,}" in
 ;;
 
 esac
+
+if [[ "${arch}" == "$(dpkg --print-architecture)" ]]
+then
+    cmd_binary+=( 'dh_makeshlibs' 'dh_shlibdeps' )
+fi
 
 cmd_binary+=('dh_gencontrol' 'dh_installdeb' )
 
