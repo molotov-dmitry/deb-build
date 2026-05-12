@@ -528,7 +528,7 @@ clean:
 build:
 	$(join_by "\n    " "${cmd_build[@]}")
 
-binary:
+binary: build
 	$(join_by "\n    " "${cmd_binary[@]}")
 
 _EOF
