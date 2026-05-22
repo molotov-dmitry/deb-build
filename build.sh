@@ -4,6 +4,8 @@ set -e
 
 ROOT_PATH="$(cd "$(dirname "$0")" && pwd)"
 
+BUILD_DIR="${CFG_BUILD_DIR:-/dev/shm}"
+
 #### Functions =================================================================
 
 join_by()
@@ -192,17 +194,17 @@ fi
 
 #### Create working dir ========================================================
 
-if [[ -d "/dev/shm/deb-build" ]]
+if [[ -d "${BUILD_DIR}/deb-build" ]]
 then
-    rm -rf "/dev/shm/deb-build"
+    rm -rf "${BUILD_DIR}/deb-build"
 fi
 
 rm -rf "package"
 
-if [[ -d "/dev/shm" ]]
+if [[ -d "${BUILD_DIR}" ]]
 then
-    mkdir -p "/dev/shm/deb-build/package"
-    ln -s "/dev/shm/deb-build/package" "package"
+    mkdir -p "${BUILD_DIR}/deb-build/package"
+    ln -s "${BUILD_DIR}/deb-build/package" "package"
 else
     mkdir -p "package"
 fi
@@ -565,10 +567,10 @@ popd
 
 #### Remove temp directory -----------------------------------------------------
 
-if [[ -d "/dev/shm/deb-build" ]]
+if [[ -d "${BUILD_DIR}/deb-build" ]]
 then
-    cp -f "/dev/shm/deb-build/"*.deb ./
-    rm -rf "/dev/shm/deb-build"
+    cp -f "${BUILD_DIR}/deb-build/"*.deb ./
+    rm -rf "${BUILD_DIR}/deb-build"
 fi
 
 rm -rf package *.buildinfo *.changes
