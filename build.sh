@@ -159,9 +159,9 @@ then
     pjtdir='.'
 fi
 
-if [[ "${buildtype,,}" == 'dkms' && name=*"-dkms" ]]
+if [[ "${buildtype,,}" == 'dkms' ]]
 then
-    name="${name%-*}"
+    dkmsname="${name%-*}"
 fi
 
 #### Check build dependencies ==================================================
@@ -307,7 +307,7 @@ case "${buildtype,,}" in
 ;;
 
 'dkms')
-
+    
 ;;
 
 'python3')
@@ -458,20 +458,16 @@ popd
 
 if [[ "${buildtype,,}" == 'dkms' ]]
 then
-    sudo rsync -a --delete --delete-excluded --exclude '/.git' --exclude '/.svn' package/ "/usr/src/${name}-${fullversion}/"
-    sudo dkms remove -m "${name}" -v "${fullversion}" --all || true
-    sudo dkms add -m "${name}" -v "${fullversion}"
-    #sudo dkms build -m "${name}" -v "${fullversion}"
-    sudo dkms mkdeb --source-only -m "${name}" -v "${fullversion}"
-    if [[ -f "/var/lib/dkms/${name}/${fullversion}/deb/${name}-dkms_${fullversion}_all.deb" ]]
+    if [[ ! -f "package/${dkmsname}.conf" ]]
     then
-        cp "/var/lib/dkms/${name}/${fullversion}/deb/${name}-dkms_${fullversion}_all.deb" ./
-    else
-        cp "/var/lib/dkms/${name}/${fullversion}/deb/${name}-dkms_${fullversion}_${arch}.deb" ./
+        if [[ -f "package/dkms.conf" ]]
+        then
+            echo "Creating link ${dkmsname}.conf to dkms.conf" >&2
+            echo 'PATH="dkms.conf"' > "package/${dkmsname}.conf"
+        else
+            echo "dkms.conf not found" >&2
+        fi
     fi
-    
-    sudo dkms remove -m "${name}" -v "${fullversion}" --all
-    exit 0
 fi
 
 #### Build package =============================================================
@@ -539,6 +535,29 @@ binary: build
 	$(join_by "\n    " "${cmd_binary[@]}")
 
 _EOF
+
+if [[ "${buildtype,,}" == 'dkms' ]]
+then
+
+cat > package/debian/rules << _EOF
+#!/usr/bin/make -f
+
+%:
+    dh \$@ --with dkms
+
+override_dh_auto_build:
+    @:
+
+override_dh_auto_test:
+    @:
+
+override_dh_auto_install:
+    mkdir -p debian/${name}/usr/src/${dkmsname}-${fullversion}
+    rsync -a --exclude='debian/' --exclude='.git/' --exclude='.github/' . debian/${name}/usr/src/${dkmsname}-${fullversion}/
+
+_EOF
+
+fi
 
 sed 's/^    /\t/g' -i package/debian/rules
 
